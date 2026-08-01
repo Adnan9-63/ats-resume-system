@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+dist/
+build/
+
+# Env / secrets
+.env
+.env.local
+
+# ML artifacts
+backend/ml/saved_models/*.pkl
+backend/ml/saved_models/*.joblib
+
+# OS
+.DS_Store
+Thumbs.db
