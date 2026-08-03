@@ -36,3 +36,4 @@ reasoning behind each component.
 ## Progress log
 
 - Day 1: Text extraction (PDF/DOCX) + regex field extraction (email, phone) + rule-based section splitter
+- Day 2: Lexical matching (TF-IDF + cosine similarity) and semantic matching (sentence embeddings) between resume and job description
