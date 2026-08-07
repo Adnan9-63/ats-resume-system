@@ -10,7 +10,13 @@ import pandas as pd
 from pathlib import Path
 
 MODEL_PATH = Path(__file__).parent.parent.parent / "ml" / "saved_models" / "shortlist_classifier.pkl"
-_model = joblib.load(MODEL_PATH)
+_model_cache = {}
+
+
+def _get_model():
+    if "model" not in _model_cache:
+        _model_cache["model"] = joblib.load(MODEL_PATH)
+    return _model_cache["model"]
 
 FEATURES = ["lexical_score", "semantic_score", "keyword_overlap_count", "years_experience_gap"]
 
@@ -32,8 +38,9 @@ def predict_shortlist_probability(
         "keyword_overlap_count": keyword_overlap_count,
         "years_experience_gap": years_experience_gap,
     }])
+    model = _get_model()
     # predict_proba returns [P(class=0), P(class=1)] -- we want P(shortlisted=1)
-    return float(_model.predict_proba(row[FEATURES])[0][1])
+    return float(model.predict_proba(row[FEATURES])[0][1])
 
 
 if __name__ == "__main__":

@@ -17,10 +17,20 @@ tradeoffs, not just chasing max accuracy.
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Loaded once at import time, not per-call -- loading the model is slow,
-# scoring with an already-loaded model is fast. This matters a lot once
-# this runs inside an API that handles many requests.
-_model = SentenceTransformer("all-MiniLM-L6-v2")
+# Lazy-loaded, not loaded at import time. Loading eagerly at import would
+# mean simply IMPORTING this module -- e.g. importing the FastAPI app for
+# testing -- requires downloading the model from the internet first. That
+# broke test collection in a network-restricted environment: a real bug,
+# not a hypothetical one. Lazy loading means the model only downloads the
+# first time it's actually needed, and is cached (via _model_cache) for
+# every call after that within the same process.
+_model_cache = {}
+
+
+def _get_model():
+    if "model" not in _model_cache:
+        _model_cache["model"] = SentenceTransformer("all-MiniLM-L6-v2")
+    return _model_cache["model"]
 
 
 def semantic_score(resume_text: str, jd_text: str) -> float:
@@ -30,7 +40,8 @@ def semantic_score(resume_text: str, jd_text: str) -> float:
     similarity between them -- same math as lexical_score, completely
     different vectors (learned meaning vs raw word-weights).
     """
-    embeddings = _model.encode([resume_text, jd_text])
+    model = _get_model()
+    embeddings = model.encode([resume_text, jd_text])
     similarity_matrix = cosine_similarity(embeddings)
     return float(similarity_matrix[0, 1])
 
