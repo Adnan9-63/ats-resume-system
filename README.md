@@ -40,3 +40,4 @@ reasoning behind each component.
 - Day 3: Trained shortlist-prediction classifier (Logistic Regression, compared against Random Forest and Gradient Boosting) on engineered match features; combined lexical + semantic + classifier into a unified match report
 - Day 4: LLM feedback module — turns match scores into specific, actionable suggestions, with an offline mock mode for development without an API key
 - Day 5: Wired everything into a real FastAPI app (`/analyze`, `/health` endpoints), fixed an eager-model-loading bug that broke testability, added a test suite (health check + input validation run anywhere; full pipeline test requires network for the embedding model)
+- Day 6: React frontend (Vite) — resume/JD input form calling the backend `/analyze` endpoint, score breakdown display, suggestions list. CORS configured on the backend so the two can actually talk to each other locally.

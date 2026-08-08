@@ -5,12 +5,25 @@ Then visit http://localhost:8000/docs for interactive API docs
 (auto-generated from the Pydantic schemas in models/schemas.py).
 """
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes_match import router as match_router
 
 app = FastAPI(
     title="AI ATS Resume System",
     description="Scores a resume against a job description using a hybrid NLP/ML/LLM pipeline.",
     version="0.1.0",
+)
+
+# CORS: without this, a browser blocks the frontend (running on a different
+# port, e.g. localhost:5173) from calling this API (localhost:8000), even
+# on the same machine -- browsers treat different ports as different
+# origins. Restricted to local dev origins here on purpose; a deployed
+# version should list its real frontend domain instead of using "*".
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.include_router(match_router)
