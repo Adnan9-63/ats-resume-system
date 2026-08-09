@@ -7,6 +7,9 @@ Then visit http://localhost:8000/docs for interactive API docs
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.routes_match import router as match_router
+from app.api.routes_auth import router as auth_router
+from app.api.routes_history import router as history_router
+from app.api.routes_report import router as report_router
 
 app = FastAPI(
     title="AI ATS Resume System",
@@ -27,6 +30,9 @@ app.add_middleware(
 )
 
 app.include_router(match_router)
+app.include_router(auth_router)
+app.include_router(history_router)
+app.include_router(report_router)
 
 
 @app.get("/health")

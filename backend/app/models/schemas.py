@@ -19,3 +19,21 @@ class AnalyzeResponse(BaseModel):
     predicted_shortlist_probability: float
     overall_score: float
     suggestions: list[str]
+
+
+class SignupRequest(BaseModel):
+    email: str
+    password: str = Field(..., min_length=8)
+
+
+class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+
+class HistoryItem(BaseModel):
+    id: str
+    created_at: str
+    resume_snippet: str
+    jd_snippet: str
+    overall_score: float

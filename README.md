@@ -41,3 +41,5 @@ reasoning behind each component.
 - Day 4: LLM feedback module — turns match scores into specific, actionable suggestions, with an offline mock mode for development without an API key
 - Day 5: Wired everything into a real FastAPI app (`/analyze`, `/health` endpoints), fixed an eager-model-loading bug that broke testability, added a test suite (health check + input validation run anywhere; full pipeline test requires network for the embedding model)
 - Day 6: React frontend (Vite) — resume/JD input form calling the backend `/analyze` endpoint, score breakdown display, suggestions list. CORS configured on the backend so the two can actually talk to each other locally.
+- Day 7: Auth + saved analysis history via Supabase (`/auth/signup`, `/auth/login`, `/history`) — gracefully returns a clean 501 until real Supabase credentials are added, rather than crashing
+- Day 8: PDF report export (`/report/pdf`) using reportlab — verified real, valid PDF output; snippet-only history storage decided deliberately for privacy
