@@ -43,3 +43,4 @@ reasoning behind each component.
 - Day 6: React frontend (Vite) — resume/JD input form calling the backend `/analyze` endpoint, score breakdown display, suggestions list. CORS configured on the backend so the two can actually talk to each other locally.
 - Day 7: Auth + saved analysis history via Supabase (`/auth/signup`, `/auth/login`, `/history`) — gracefully returns a clean 501 until real Supabase credentials are added, rather than crashing
 - Day 8: PDF report export (`/report/pdf`) using reportlab — verified real, valid PDF output; snippet-only history storage decided deliberately for privacy
+- Day 9: Test coverage for the parsing and lexical scoring modules (previously untested) — email/phone extraction, section splitting, and TF-IDF relevance ordering
