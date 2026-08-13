@@ -1,0 +1,30 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    # If .env doesn't exist yet, Compose would error out. This project
+    # uses mock modes (LLM feedback) and graceful 501s (auth/history)
+    # specifically so the app still runs meaningfully without real
+    # credentials -- .env is optional at this stage, not required.
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+# Usage: docker compose up --build
+# Frontend: http://localhost:3000
+# Backend directly (for testing/API docs): http://localhost:8000/docs
+#
+# Worth noting: in this setup, the BROWSER only ever talks to nginx on
+# port 3000. The nginx-to-backend proxy call (see frontend/nginx.conf)
+# happens server-side, container-to-container -- the browser never
+# directly contacts port 8000. That's why CORS, which is a BROWSER
+# security rule, isn't actually needed in this production setup at all
+# -- it only mattered in local dev, where the browser genuinely talked
+# to two different ports directly.

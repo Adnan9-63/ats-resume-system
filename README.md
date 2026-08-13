@@ -44,3 +44,11 @@ reasoning behind each component.
 - Day 7: Auth + saved analysis history via Supabase (`/auth/signup`, `/auth/login`, `/history`) — gracefully returns a clean 501 until real Supabase credentials are added, rather than crashing
 - Day 8: PDF report export (`/report/pdf`) using reportlab — verified real, valid PDF output; snippet-only history storage decided deliberately for privacy
 - Day 9: Test coverage for the parsing and lexical scoring modules (previously untested) — email/phone extraction, section splitting, and TF-IDF relevance ordering
+- Day 10: Dockerized both services — backend Dockerfile (trains the classifier fresh at build time since the model file is gitignored), multi-stage frontend Dockerfile (Node build → nginx serve), nginx configured to proxy `/api` to the backend so the frontend code is identical between dev and production. `docker-compose.yml` runs everything with one command.
+
+## Running with Docker
+
+```bash
+docker compose up --build
+```
+Frontend: http://localhost:3000 · Backend API docs: http://localhost:8000/docs
